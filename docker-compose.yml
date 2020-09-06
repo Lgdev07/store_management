@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    container_name: store_management_app
+    command: python run.py -h 0.0.0.0
+    volumes:
+      - .:/store_management_app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    container_name: store_management_db
+    environment:
+      - POSTGRES_DB=store_management
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=docker
+    ports:
+      - "5432:5432"
+    volumes:
+      - database_postgres:/var/lib/postgresql/data
+  
+volumes:
+  database_postgres:
